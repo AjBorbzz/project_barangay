@@ -32,6 +32,7 @@ def contact(request):
                           user_id=user_id)
                 
         contact.save()
+        
 
         messages.success(request, 'Your request has been submitted')
         return redirect('/announcements/'+ announcement_id)

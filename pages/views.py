@@ -21,3 +21,4 @@ def about(request):
         'mvp_officials' : mvp_officials
     }
     return render(request, 'pages/about.html', context)
+

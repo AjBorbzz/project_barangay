@@ -31,23 +31,23 @@
 
       <!-- Alerts -->
       {% include 'partials/_alerts.html' %}
-
       <section id="dashboard" class="py-4">
         <div class="container">
           <div class="row">
             <div class="col-md-12">
               <h2>Welcome {{user.username}}</h2>
-              {% if contacts %}
+              {% if contacts%}
               <p>Here are the announcements that you have inquired about</p>
               <table class="table">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Property</th>
+                    <th scope="col">Announcement</th>
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
+               
                   {% for contact in contacts %}
                   <tr>
                     <td>{{contact.id}}</td>

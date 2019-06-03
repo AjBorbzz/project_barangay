@@ -1,0 +1,17 @@
+<!-- Alerts -->
+{% include 'partials/_alerts.html' %}
+
+<br />
+<br/>
+  {{resident}}
+  <br>
+  {{resident.birthplace}}
+  <br>
+  {{resident.birthday}}
+  <br>
+  {{resident.address}}
+  <br>
+  {{resident.gender}}
+  <br>
+  <img src="{{ resident.photo_main.url }}" alt="" class="img-main img-fluid mb-3">
+  <img src="{{ resident.file_upload.url }}" alt="" class="img-main img-fluid mb-3">

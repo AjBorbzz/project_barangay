@@ -1,7 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages, auth
 from django.contrib.auth.models import User
 from contacts.models import Contact
+from django.contrib.auth.decorators import login_required
+from .models import BgyResident
 
 def register(request):
     if request.method == 'POST':
@@ -48,7 +50,10 @@ def login(request):
         if user is not None:
             auth.login(request, user)
             messages.success(request, 'You are now logged in')
-            return redirect('dashboard')
+            if 'next' in request.POST:
+                return redirect(request.POST.get('next'))
+            else:
+                return redirect('dashboard')
         else:
             messages.error(request, 'Invalid credentials')
             return redirect('login')
@@ -69,3 +74,31 @@ def dashboard(request):
     }
     return render(request, 'accounts/dashboard.html', context)
 
+@login_required(login_url='login')
+def manage_profile(request):
+        if request.method == 'POST':
+            # Get form values
+            resident = BgyResident()
+            
+            resident.birthdate= request.POST['birthdate']
+            resident.birthplace = request.POST['birthplace']
+            resident.address = request.POST['address']
+            resident.gender = request.POST['gender']
+            resident.philhealth = request.POST['philhealth']
+            resident.highest_education= request.POST['highest_education']
+            resident.remarks= request.POST['remarks']
+            resident.phonenumber= request.POST['phonenumber']
+            resident.file_upload = request.POST['file_upload']
+            resident.photo_main = request.POST['photo_main']
+            resident.user_id = request.user.id
+
+            resident.save()
+            messages.success(request,'Profile updated')
+            return redirect('accounts_view')
+        else:
+            return render(request, 'accounts/manage_profile.html')
+
+def accounts_view(request):
+    user_id = request.user.id 
+    resident = get_object_or_404(BgyResident, user_id=user_id)
+    return render(request, 'accounts/accounts_view.html', {'resident' : resident})
